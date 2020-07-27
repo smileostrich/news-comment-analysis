@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{%  block content %}
+    <div class="content-section">
+        <legend class="border-bottom mb-4">News</legend>
+
+        <div class="list-group-item">
+            <h6>- 뉴스 제목 -</h6>
+            <div>{{ news.title }}</div>
+        </div>
+        <div class="list-group-item">
+            <h6>- 뉴스 내용 -</h6>
+            <div>{{ news.contents }}</div>
+        </div>
+    </div>
+    <div class="content-section">
+        <legend class="border-bottom mb-4">Comment</legend>
+
+        <div class="list-group-item">
+            <h6>- 댓글 ID -</h6>
+            <div>{{ comment.commentno }}</div>
+        </div>
+        <div class="list-group-item">
+            <h6>- 댓글 내용 -</h6>
+            <div>{{ comment.contents }}</div>
+        </div>
+    </div>
+    <div class="content-section">
+        <legend class="border-bottom mb-4">Manual Coding</legend>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.opinion.label(class="form-control-label") }}
+
+                    {% if form.opinion.errors %}
+                        {{ form.opinion(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.opinion.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.opinion(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.improvement.label(class="form-control-label") }}
+
+                    {% if form.improvement.errors %}
+                        {{ form.improvement(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.improvement.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.improvement(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.relation.label(class="form-control-label") }}
+
+                    {% if form.relation.errors %}
+                        {{ form.relation(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.relation.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.relation(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.positive.label(class="form-control-label") }}
+
+                    {% if form.positive.errors %}
+                        {{ form.positive(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.positive.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.positive(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.negative.label(class="form-control-label") }}
+
+                    {% if form.negative.errors %}
+                        {{ form.negative(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.negative.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.negative(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.neutrality.label(class="form-control-label") }}
+
+                    {% if form.neutrality.errors %}
+                        {{ form.neutrality(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.neutrality.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.neutrality(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

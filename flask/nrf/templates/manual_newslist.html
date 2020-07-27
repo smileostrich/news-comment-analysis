@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{%  block content %}
+<style>
+    .n-bold {font-weight: bold;}
+    .n-end {padding-bottom: 15px;}
+</style>
+    <div class="content-section">
+        총 {{ newsnum }}개의 뉴스가 존재합니다.
+    </div>
+    {% for n in news %}
+    <div class="content-section">
+        <legend class="border-bottom"><a class="mb-4 n-title" href="{{ url_for('manualcoding.commentlist', aid=n.aid) }}">{{ n.title }}</a></legend>
+        <div class="text-right n-bold">작성일 : {{ n.regtime }}</div>
+        <div class="text-right n-bold">{{ n.officename }}</div>
+        <div class="text-right n-bold">댓글 수 : {{ n.total_cnt }}</div>
+        <div class="text-right n-bold">여성 : {{ n.woman_rate }} 남성 : {{ n.man_rate }}</div>
+        <div class="text-right n-bold">10대 : {{ n.teens_rate }} 20대 : {{ n.twenties_rate }} 30대: {{ n.thirties_rate }} 40대 : {{ n.forties_rate }} 50대 : {{ n.fifties_rate }}</div>
+        <div class="text-right n-bold">좋아요 : {{ n.like_cnt }} 훈훈해요 : {{ n.warm_cnt }} 슬퍼요 : {{ n.sad_cnt }} 화나요 : {{ n.angry_cnt }} 원해요 : {{ n.want_cnt }}</div>
+        <div class="text-right n-bold">블라인드된 댓글 수 : {{ n.blindcomment_cnt}}</div>
+        <div class="text-right n-bold">규정위반 댓글 수 : {{ n.violaterule_cnt}}</div>
+        <div class="text-right n-bold">삭제된 댓글 수 : {{ n.deletedcomment_cnt}}</div>
+        <div class="text-right n-bold n-end">메인으로 추천 : {{ n.recommendmain_cnt}}</div>
+        <div class="text-left">{{ n.contents }}</div>
+    </div>
+    {% endfor %}
+{% endblock content %}

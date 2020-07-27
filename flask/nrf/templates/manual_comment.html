@@ -1,0 +1,271 @@
+{% extends "layout.html" %}
+{%  block content %}
+<style>
+    .n-bold {font-weight: bold;}
+    .n-end {padding-bottom: 15px;}
+</style>
+    <div class="content-section">
+        총 {{ commentnum }}개의 댓글이 존재합니다.
+    </div>
+    {% for c in comment %}
+    <a data-toggle="modal" data-target="#editModal">
+        <div class="content-section">
+            <legend class="border-bottom mb-4">Comment</legend>
+
+            <div class="list-group-item">
+                <h6>- 댓글 ID -</h6>
+                <div>{{ c.commentno }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 등록시간 -</h6>
+                <div>{{ c.regtime }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 블라인드 여부 -</h6>
+                <div>{{ c.blind }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 삭제 여부 -</h6>
+                <div>{{ c.deleted }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- Best댓글 여부 -</h6>
+                <div>{{ c.best }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 좋아요 -</h6>
+                <div>{{ c.sympathycount }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 싫어요 -</h6>
+                <div>{{ c.antipathycount }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 대댓글수 -</h6>
+                <div>{{ c.replyallcount }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- iprovider -</h6>
+                <div>{{ c.idprovider }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- manualcoding 여부 -</h6>
+                <div>{{ c.bool_manual }}</div>
+            </div>
+            <div class="list-group-item">
+                <h6>- 댓글 내용 -</h6>
+                <div>{{ c.contents }}</div>
+            </div>
+        </div>
+    </a>
+
+{##}
+{#    <div class="content-section">#}
+{#        <legend class="border-bottom"><a class="mb-4 n-title" href="{{ url_for('manualcoding.commentlist', aid=n.aid) }}">{{ n.title }}</a></legend>#}
+{#        <div class="text-right n-bold">작성일 : {{ n.regtime }}</div>#}
+{#        <div class="text-right n-bold">{{ n.officename }}</div>#}
+{#        <div class="text-right n-bold">댓글 수 : {{ n.total_cnt }}</div>#}
+{#        <div class="text-right n-bold">여성 : {{ n.woman_rate }} 남성 : {{ n.man_rate }}</div>#}
+{#        <div class="text-right n-bold">10대 : {{ n.teens_rate }} 20대 : {{ n.twenties_rate }} 30대: {{ n.thirties_rate }} 40대 : {{ n.forties_rate }} 50대 : {{ n.fifties_rate }}</div>#}
+{#        <div class="text-right n-bold">좋아요 : {{ n.like_cnt }} 훈훈해요 : {{ n.warm_cnt }} 슬퍼요 : {{ n.sad_cnt }} 화나요 : {{ n.angry_cnt }} 원해요 : {{ n.want_cnt }}</div>#}
+{#        <div class="text-right n-bold">블라인드된 댓글 수 : {{ n.blindcomment_cnt}}</div>#}
+{#        <div class="text-right n-bold">규정위반 댓글 수 : {{ n.violaterule_cnt}}</div>#}
+{#        <div class="text-right n-bold">삭제된 댓글 수 : {{ n.deletedcomment_cnt}}</div>#}
+{#        <div class="text-right n-bold n-end">메인으로 추천 : {{ n.recommendmain_cnt}}</div>#}
+{#        <div class="text-left">{{ n.contents }}</div>#}
+{#    </div>#}
+    {% endfor %}
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-left" id="editModalLabel">Manual Coding</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="form-group">
+                            <h4>기사내용</h4>
+                            <hr style="margin-top: 0rem;"/>
+                            <div class="form-group">
+                                {{ form.opinion.label(class="form-control-label") }}
+
+                                {% if form.opinion.errors %}
+                                    {{ form.opinion(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.opinion.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.opinion(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.improvement.label(class="form-control-label") }}
+
+                                {% if form.improvement.errors %}
+                                    {{ form.improvement(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.improvement.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.improvement(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.relation.label(class="form-control-label") }}
+
+                                {% if form.relation.errors %}
+                                    {{ form.relation(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.relation.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.relation(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.positive.label(class="form-control-label") }}
+
+                                {% if form.positive.errors %}
+                                    {{ form.positive(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.positive.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.positive(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.negative.label(class="form-control-label") }}
+
+                                {% if form.negative.errors %}
+                                    {{ form.negative(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.negative.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.negative(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.neutrality.label(class="form-control-label") }}
+
+                                {% if form.neutrality.errors %}
+                                    {{ form.neutrality(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.neutrality.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.neutrality(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <hr/>
+                            <h4>기사의 댓글/댓글 작성자</h4>
+                            <hr style="margin-top: 0rem;"/>
+                            <div class="form-group">
+                                {{ form_co.posorneg.label(class="form-control-label") }}
+
+                                {% if form_co.posorneg.errors %}
+                                    {{ form_co.posorneg(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form_co.posorneg.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form_co.posorneg(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_co.reason.label(class="form-control-label") }}
+
+                                {% if form_co.reason.errors %}
+                                    {{ form_co.reason(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form_co.reason.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form_co.reason(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <hr/>
+                            <h4>기사 자체/기자</h4>
+                            <hr style="margin-top: 0rem;"/>
+                            <div class="form-group">
+                                {{ form_re.posorneg.label(class="form-control-label") }}
+
+                                {% if form_re.posorneg.errors %}
+                                    {{ form_re.posorneg(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form_re.posorneg.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form_re.posorneg(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_re.reason.label(class="form-control-label") }}
+
+                                {% if form_re.reason.errors %}
+                                    {{ form_re.reason(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form_re.reason.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form_re.reason(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <hr/>
+                        </fieldset>
+                        <div class="form-group modal-footer">
+                            {{ form.submit(class="btn btn-primary") }}
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+{#                <div class="modal-footer">#}
+{#                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#                    <button type="button" id="btnUpdate" class="btn btn-primary">Update</button>#}
+{#                </div>#}
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('form').submit(function (e) {
+            var url = "{{ url_for('manualcoding.processmanual') }}"; // send the form data here.
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $('form').serialize(), // serializes the form's elements.
+                success: function (data) {
+                    console.log(data)  // display the returned data in the console.
+                }
+            });
+            e.preventDefault(); // block the traditional submission of the form.
+        });
+    });
+</script>
+{% endblock content %}

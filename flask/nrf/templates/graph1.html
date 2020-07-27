@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{%  block content %}
+    <style>
+        rect {
+            fill: #177eff;
+        }
+    </style>
+
+    <div class="content-section">
+        <legend class="border-bottom mb-4">graph-1</legend>
+        <div class="list-group-item">
+            <div><a href="{{ url_for('visualize.main') }}">Go To Main</a></div>
+        </div>
+        <div class="list-group-item">
+            <h6>- 댓글 수 -</h6>
+            <div>{{ comment }}</div>
+        </div>
+        <div class="list-group-item">
+            <h6>- 뉴스 수 -</h6>
+            <div>{{ news }}</div>
+        </div>
+        <svg>
+            <g class="bars">
+                <rect />
+                <rect />
+                <rect />
+                <rect />
+                <rect />
+            </g>
+            <g class="y-axis" />
+        </svg>
+    </div>
+    <!-- Optional visualization tool added by moon -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+    var WIDTH = 300;
+    var HEIGHT = 400;
+
+    var TOP_MARGIN = 15;
+    var LEFT_MARGIN = 50;
+    var RIGHT_MARGIN = 50;
+    var BOTTOM_MARGIN = 10;
+
+    var scores = [];
+    var comment = {{ comment }}
+    var news = {{ news }}
+    scores.push(comment, news);
+
+    var yScale = d3.scaleLinear()
+        .domain([0, d3.max(scores)])
+        .range([HEIGHT - TOP_MARGIN - BOTTOM_MARGIN, 0]);
+    var xScale = d3.scaleBand()
+        .domain(d3.range(scores.length))
+        .range([0, WIDTH - LEFT_MARGIN - RIGHT_MARGIN])
+        .padding(0.1);
+
+    var root = d3.select('svg')
+        .attr('width', WIDTH)
+        .attr('height', HEIGHT);
+
+    root.select('.y-axis')
+        .style('transform', 'translate(' + LEFT_MARGIN + 'px, ' + TOP_MARGIN + 'px)')
+        .call(d3.axisLeft().scale(yScale));
+
+    root.select('.bars')
+        .style('transform', 'translate(' + LEFT_MARGIN + 'px, ' + TOP_MARGIN + 'px)')
+        .selectAll('rect')
+        .data(scores)
+        .attr('x', function (score, index) {return xScale(index);})
+        .attr('y', function (score, index) {return yScale(score);})
+        .attr('width', xScale.bandwidth())
+        .attr('height', function (score, index) {
+            return HEIGHT - TOP_MARGIN - BOTTOM_MARGIN - yScale(score);
+        });
+    </script>
+{% endblock content %}

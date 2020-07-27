@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+    postgres:
+      build: ./postgres
+      container_name: postgres
+      ports:
+        - 2345:5432
+      networks:
+        - net
+      environment:
+        - POSTGRES_DB=config.Config.POSTGRES_DB
+        - POSTGRES_USER=config.Config.POSTGRES_USER
+        - POSTGRES_PASSWORD=config.Config.POSTGRES_PASSWORD
+      volumes:
+        - postgres:/var/lib/postgresql/data
+
+    flask:
+      build: ./flask
+      container_name: flask
+      volumes:
+        - ./flask:/usr/src/app
+      networks:
+        - net
+      environment:
+        - APP_SETTINGS=config.Config
+        - DATABASE_URL=config.Config.SQLALCHEMY_DATABASE_URI
+        - SECRET_KEY=config.Config.SECRET_KEY
+      depends_on:
+        - postgres
+      links:
+        - postgres
+
+      # 데이터 수가 2억개가 넘어가면서 연산/그래프 띄울때 너무 오래걸리면 끊어져서 강제로 늘려줌. 상위레벨에서 ip 화이트리스트로 관리해서 임시 조치 해놨지만 추후 보안문제때문에 해결필요
+      command: gunicorn --worker-class eventlet -w 4 -b 0.0.0.0:8000 manage:app --timeout 99999
+
+    nginx:
+      build: ./nginx
+      container_name: nginx
+      ports:
+        - 80:80
+      restart: always
+      networks:
+        - net
+      volumes:
+        - ./flask/nrf/static:/usr/share/nginx/html/static
+      depends_on:
+        - flask
+
+volumes:
+  postgres:
+
+networks:
+  net:
