@@ -1,8 +1,7 @@
 news-comment analysis
 =====================
-
 auto crawling, data analysis project
-------------------------------------
+
 
 ## Crawler
 - Naver / The New York Times news & comment data
