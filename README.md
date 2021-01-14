@@ -1,6 +1,6 @@
 news-comment analysis
 =====================
-auto crawling, data analysis project
+website for auto crawling, data analysis project
 
 
 ## Crawler
