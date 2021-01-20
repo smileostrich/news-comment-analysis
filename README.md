@@ -6,7 +6,7 @@ website for auto crawling, data analysis project
 ## Crawler
 - Naver / The New York Times news & comment data
 
-- crawling 원칙에 따라 요청 횟수를 최소한으로 줄이기 위해 직접받아오는 방식으로 변경
+- crawling 원칙에 따라 요청 횟수를 최소한으로 줄이기 위해 selenium -> 직접받아오는 방식으로 변경
 
 ## docker-compose
 - version 3
